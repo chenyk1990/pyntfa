@@ -3,7 +3,7 @@
 
 ## Description
 
-**Pyntfa* is a TEMPLATE python package. Any complex package can be built from this basic package. 
+**Pyntfa* is a python package for non-stationary time-frequency analysis. 
 This package has a variety of applications in both exploration and earthquake seismology.
 
 ## Reference
