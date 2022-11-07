@@ -8,7 +8,7 @@ This package has a variety of applications in both exploration and earthquake se
 
 ## Reference
 
-Chen et al., 2021, Nonstationary local time-frequency transform, Geophysics, 86(3), V245–V254.
+Chen, Y., 2021, Nonstationary local time-frequency transform, Geophysics, 86(3), V245–V254.
 
 BibTeX:
 
