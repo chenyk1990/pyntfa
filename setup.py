@@ -20,7 +20,16 @@ def read(*names, **kwargs):
 
 from distutils.core import Extension
 
-ntfac_module = Extension('ntfacfun', sources=['pyntfa/src/main.c','pyntfa/src/ntfa_alloc.c'])
+ntfac_module = Extension('ntfacfun', sources=['pyntfa/src/main.c',
+											  'pyntfa/src/ntfa_alloc.c',
+											  'pyntfa/src/ntfa_blas.c',
+											  'pyntfa/src/ntfa_divnnsc.c',
+											  'pyntfa/src/ntfa_conjgrad.c',
+											  'pyntfa/src/ntfa_weight2.c',
+											  'pyntfa/src/ntfa_decart.c',
+											  'pyntfa/src/ntfa_triangle.c',
+											  'pyntfa/src/ntfa_ntriangle.c',
+											  'pyntfa/src/ntfa_ntrianglen.c'	])
 
 from numpy.distutils.core import setup 
 setup(

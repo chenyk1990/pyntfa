@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void *np_alloc (size_t n    /* number of elements */, 
+void *tf_alloc (size_t n    /* number of elements */, 
 			  size_t size /* size of one element */)
 	  /*< output-checking allocation >*/
 {
@@ -20,19 +20,19 @@ void *np_alloc (size_t n    /* number of elements */,
     return ptr;
 }
 
-float *np_floatalloc (size_t n /* number of elements */)
+float *tf_floatalloc (size_t n /* number of elements */)
 	  /*< float allocation >*/ 
 {
     float *ptr;
-    ptr = (float*) np_alloc (n,sizeof(float));
+    ptr = (float*) tf_alloc (n,sizeof(float));
     return ptr;
 }
 
-int *np_intalloc (size_t n /* number of elements */)
+int *tf_intalloc (size_t n /* number of elements */)
 	  /*< int allocation >*/  
 {
     int *ptr;
-    ptr = (int*) np_alloc (n,sizeof(int));
+    ptr = (int*) tf_alloc (n,sizeof(int));
     return ptr;
 }
 
