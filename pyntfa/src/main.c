@@ -96,7 +96,8 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
     
     int niter,verb,rect0,n1;
     float dt,alpha;
-	PyArg_ParseTuple(args, "Oiiiiff", &f1,&niter,&n1,&verb,&rect0,&dt,&alpha);
+    int ifb,inv;
+	PyArg_ParseTuple(args, "Oiiiiiiff", &f1,&niter,&n1,&verb,&rect0,&ifb,&inv,&dt,&alpha);
 	
 	ndata=n1;
 
@@ -164,6 +165,12 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
     n12 = 2*n1w;
     dw *= 2.*SF_PI;
     w0 *= 2.*SF_PI;
+
+
+	printf("niter=%d,n1=%d,nw=%d,nt=%d,n12=%d,rect0=%d\n",niter,n1,nw,nt,n12,rect0);
+	printf("dw=%g,w0=%g,alpha=%g,dt=%g\n",dw,w0,alpha,dt);
+
+	
 
     trace = tf_floatalloc(n1);
     kbsc    = tf_floatalloc(n12);
@@ -289,7 +296,8 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
 // 	if (!inv) {
 // 	    tf_floatread(trace,n1,in);
 	    
-	    
+	if(!inv)
+	{
     arrf1 = PyArray_FROM_OTF(f1, NPY_FLOAT, NPY_IN_ARRAY);
     
     nd2=PyArray_NDIM(arrf1);
@@ -309,7 +317,7 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
     {
         trace[i]=*((float*)PyArray_GETPTR1(arrf1,i));
     }
-	    
+	printf("ndata=%d\n",ndata);
 	    
 	    if (NULL != mm) {
 		for (i1=0; i1 < n1; i1++) {
@@ -321,6 +329,32 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
 		trace[i1] /= mean;
 	    }
 	    divnn_sc (trace,sscc,niter);
+	}else{
+	
+	
+    arrf1 = PyArray_FROM_OTF(f1, NPY_FLOAT, NPY_IN_ARRAY);
+    
+    nd2=PyArray_NDIM(arrf1);
+    
+    npy_intp *sp=PyArray_SHAPE(arrf1);
+    	
+    for (i=0; i<n1w*2; i++)
+    {
+        sscc[i]=*((float*)PyArray_GETPTR1(arrf1,i));
+    }
+
+	    for (i1=0; i1 < n1; i1++) {
+		trace[i1] = 0.;
+	    }
+	    
+	    for (iw=0; iw < nw; iw++) {
+		for (i1=0; i1 < n1; i1++) {
+		    trace[i1] += sscc[(iw+nw)*n1+i1]*kbsc[(iw+nw)*n1+i1]
+			*mean+sscc[iw*n1+i1]*kbsc[iw*n1+i1]*mean;
+		    if (NULL != mm) trace[i1] *= mm[i1];
+		}
+	    }
+	}
 // 	    for (iw=0; iw < nw; iw++) {
 // 		for (i1=0; i1 < n1; i1++) {
 // 		    outp[iw*n1+i1] = tf_cmplx(sscc[(iw+nw)*n1+i1],
@@ -361,15 +395,49 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
 	/*sub-function goes here*/
 	
 	
+	
     /*Below is the output part*/
     PyArrayObject *vecout;
-	npy_intp dims[2];
-	dims[0]=ndata*nw*2;dims[1]=1;
+    npy_intp dims[2];
+    
+    if(!inv)
+    {
+
+	if(ifb)
+	{
+	dims[0]=ndata*nw*4+3;dims[1]=1;
+	/* Parse tuples separately since args will differ between C fcns */
+	/* Make a new double vector of same dimension */
+	vecout=(PyArrayObject *) PyArray_SimpleNew(1,dims,NPY_FLOAT);
+	for(i=0;i<ndata*nw*2;i++)
+		(*((float*)PyArray_GETPTR1(vecout,i))) = sscc[i];
+	for(i=0;i<ndata*nw*2;i++)
+		(*((float*)PyArray_GETPTR1(vecout,i+ndata*nw*2))) = kbsc[i];
+		
+	(*((float*)PyArray_GETPTR1(vecout,0+ndata*nw*4))) = w0;
+	(*((float*)PyArray_GETPTR1(vecout,1+ndata*nw*4))) = dw;
+	(*((float*)PyArray_GETPTR1(vecout,2+ndata*nw*4))) = nw;
+	}else{
+	dims[0]=ndata*nw*2+3;dims[1]=1;
+	vecout=(PyArrayObject *) PyArray_SimpleNew(1,dims,NPY_FLOAT);
+	for(i=0;i<ndata*nw*2;i++)
+		(*((float*)PyArray_GETPTR1(vecout,i))) = sscc[i];
+	printf("w0=%g,dw=%g,nw=%d\n",w0,dw,nw);
+	(*((float*)PyArray_GETPTR1(vecout,0+ndata*nw*2))) = w0;
+	(*((float*)PyArray_GETPTR1(vecout,1+ndata*nw*2))) = dw;
+	(*((float*)PyArray_GETPTR1(vecout,2+ndata*nw*2))) = nw;
+	}
+	
+	
+	}else{
+	
+	dims[0]=n1;dims[1]=1;
 	/* Parse tuples separately since args will differ between C fcns */
 	/* Make a new double vector of same dimension */
 	vecout=(PyArrayObject *) PyArray_SimpleNew(1,dims,NPY_FLOAT);
 	for(i=0;i<dims[0];i++)
-		(*((float*)PyArray_GETPTR1(vecout,i))) = sscc[i];
+		(*((float*)PyArray_GETPTR1(vecout,i))) = trace[i];
+	}
 	
 	return PyArray_Return(vecout);
 	
