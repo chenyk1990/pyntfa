@@ -8,6 +8,7 @@ dout=ntfa.tf(din)
 err=np.linalg.norm(din-dout)
 print(err)
 
+# Download the data from https://github.com/aaspip/data/blob/main/cchirps.bin
 fid=open("cchirps.bin","rb");
 din = np.fromfile(fid, dtype = np.float32, count = 512).reshape([512,1],order='F')
 plt.plot(din)
