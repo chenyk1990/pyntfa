@@ -61,3 +61,90 @@ plt.imshow(basis[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-d
 plt.savefig('test_pyntfa_syn1d.png',format='png',dpi=300)
 plt.show();
 
+## comparison with CWT
+
+import obspy
+from obspy.imaging.cm import obspy_sequential
+from obspy.signal.tf_misfit import cwt
+
+f_min = 0.001
+f_max = 0.5
+w0=8 #parameter for the wavelet, tradeoff between time and frequency resolution
+dt=1
+# scalogram = cwt(din, dt, w0, f_min, f_max, nf=257)
+
+# st = obspy.read()
+# tr = st[0]
+# npts = tr.stats.npts
+# dt = tr.stats.delta
+# t = np.linspace(0, dt * npts, npts)
+# f_min = 1
+# f_max = 50
+din2=np.zeros(3000);din2[:512]=din[:,0];
+# din2=tr.data
+scalogram = cwt(din2, dt, 8, f_min, f_max, nf=257) #size 257x3000
+scalogram=scalogram[:,0:512];
+
+
+## from NTFA
+dout=np.transpose(dout, (1, 0, 2)); #frequency|time|real&imag
+scalogram2 = np.empty(dout.shape[0:2], dtype=np.complex64)
+scalogram2.real = dout[:,:,0]
+scalogram2.imag = dout[:,:,1]
+fig = plt.figure(figsize=(16, 8))
+plt.subplot(1,2,1)
+plt.imshow(np.abs(scalogram),aspect='auto')
+# plt.show()
+
+plt.subplot(1,2,2)
+plt.imshow(np.abs(scalogram2),aspect='auto')
+plt.show()
+
+t=np.arange(512)
+grid_x, grid_y = np.meshgrid(
+    t,
+    np.logspace(np.log10(f_min), np.log10(f_max), scalogram.shape[0]))
+
+points1,points2 = np.meshgrid(
+    t,
+    np.linspace(0, 0.5, scalogram.shape[0]))
+
+
+
+# Below figure will help you understand the difference between OBSPY CWT and other real-world time-frequency transforms
+
+from scipy.interpolate import griddata
+# grid_z2 = griddata(np.transpose(np.array([points1.flatten(),points2.flatten()])),scalogram2.flatten(), (grid_x, grid_y),method='linear')
+
+grid_z2 = griddata(np.transpose(np.array([points1.flatten(),points2.flatten()])),scalogram2.flatten(), (grid_x, grid_y),method='cubic')
+
+fig = plt.figure(figsize=(16, 8))
+plt.subplot(1,3,1)
+plt.imshow(np.abs(scalogram),aspect='auto')
+# plt.show()
+
+plt.subplot(1,3,2)
+plt.imshow(np.abs(scalogram2),aspect='auto')
+
+plt.subplot(1,3,3)
+plt.imshow(np.abs(grid_z2),aspect='auto')
+# plt.savefig('comp_linear.png')
+plt.savefig('comp_cubic.png')
+plt.show()
+
+
+
+
+# grid_z2 = griddata(scalogram2.real.flatten(), np.transpose(np.array([points1.flatten(),points2.flatten()])), np.transpose(np.array([points1.flatten(),points2.flatten()])))
+
+
+# import scipy
+# from scipy import io
+# datas = {"ntfa_r":dout[:,:,1],"ntfa_i":dout[:,:,0],'tracere':trace}
+# scipy.io.savemat("ntfa.mat", datas)
+
+
+
+
+
+
