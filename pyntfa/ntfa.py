@@ -70,5 +70,6 @@ def ntfa1d(din,dt=0.004,niter=100,rect=10,ifb=0,inv=0,verb=1,alpha=0):
 	else:
 		return dtmp
 
+
 	
 

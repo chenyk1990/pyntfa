@@ -173,7 +173,7 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
 	
 
     trace = tf_floatalloc(n1);
-    kbsc    = tf_floatalloc(n12);
+    kbsc    = tf_floatalloc(n12); /*kbsc is the basis functions*/
 //     outp = tf_complexalloc(n1w);
 //     cbsc = tf_complexalloc(n1w);
 
@@ -328,9 +328,9 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
 	    for(i1=0; i1 < n1; i1++) {
 		trace[i1] /= mean;
 	    }
-	    divnn_sc (trace,sscc,niter);
+	    divnn_sc (trace,sscc,niter); /*YC 10/20/2024: sscc is the NTF coefficients*/
 	}else{
-	
+	/*This part is to reconstruct the data given the basis functions and their weights (i.e., TF spectrum)*/
 	
     arrf1 = PyArray_FROM_OTF(f1, NPY_FLOAT, NPY_IN_ARRAY);
     
@@ -403,7 +403,7 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
     if(!inv)
     {
 
-	if(ifb)
+	if(ifb) /*if output the basis functions, e.g., Fourier bases in this case*/
 	{
 	dims[0]=ndata*nw*4+3;dims[1]=1;
 	/* Parse tuples separately since args will differ between C fcns */
