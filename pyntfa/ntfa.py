@@ -15,16 +15,29 @@ def tf(din):
 	
 	return dout
 	
-def ntfa1d(din,dt=0.004,niter=100,rect=10,ifb=0,inv=0,verb=1,alpha=0):
+def ntfa1d(din,dt=0.004,niter=100,rect=10,ifb=0,ifn=0,inv=0,verb=1,alpha=0,rect1=None,rect2=None):
 	"""
 	Non-stationary time-frequency transform on 1D trace
 	
-	
+	INPUT
+	din: input trace (1D, n1/nt)
 	ifb: if output basis functions
+	ifn: if non-stationary smoothing for model
 	inv: flag of inverse transform (0: forward; 1: inverse; default: 0)
 	
-	By Yangkang Chen
-	Nov 6, 2022
+	OUTPUT
+	dout: output Time-frequency spectrum (first axis: Time; second axis: Frequency; third axis: imag/real)
+	NOTE: 1) dout is of size n1*nw*2 (e.g., dout.reshape([n1,nw,2],order='F'))
+		  2) The first component in 3rd axis is Imaginary; and the second component is Real (Remember it when constructing a complex number)	
+	
+	EXAMPLE
+	demos/test_pyntfa_syn1d.py
+	demos/test_pyntfa_syn1d2.py
+	
+	HISTORY
+	Original version by Yangkang Chen, Nov 6, 2022
+	Modified by Yangkang Chen, Oct 20, 2024
+	
 	"""
 	import numpy as np
 	
@@ -38,8 +51,13 @@ def ntfa1d(din,dt=0.004,niter=100,rect=10,ifb=0,inv=0,verb=1,alpha=0):
 	n1=din.shape[0];
 	print(n1)
 	
-	dtmp=tf1d(din.flatten(order='F'),niter,n1,verb,rect,ifb,inv,dt,alpha)
-	
+	if ifn:
+		print('rect1 shape:',rect1.shape);
+		print('rect2 shape:',rect2.shape);
+		rect1=np.float32(rect1);rect2=np.float32(rect2)
+		dtmp=ntf1d(din.flatten(order='F'),rect1.flatten(order='F'),rect2.flatten(order='F'),niter,n1,verb,rect,ifb,inv,dt,alpha)
+	else:
+		dtmp=tf1d(din.flatten(order='F'),niter,n1,verb,rect,ifb,inv,dt,alpha)
 	#dout: real,imag,basis,w0,dw,nw
 	
 	if inv==0: #forward transform
