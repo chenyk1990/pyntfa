@@ -52,13 +52,11 @@ def ntfa1d(din,dt=0.004,niter=100,rect=10,ifb=0,ifn=0,inv=0,verb=1,alpha=0,rect1
 	print(n1)
 	
 	if ifn:
-		print('rect1 shape:',rect1.shape);
-		print('rect2 shape:',rect2.shape);
 		rect1=np.float32(rect1);rect2=np.float32(rect2)
 		dtmp=ntf1d(din.flatten(order='F'),rect1.flatten(order='F'),rect2.flatten(order='F'),niter,n1,verb,rect,ifb,inv,dt,alpha)
 	else:
 		dtmp=tf1d(din.flatten(order='F'),niter,n1,verb,rect,ifb,inv,dt,alpha)
-	#dout: real,imag,basis,w0,dw,nw
+	#dout: imag,real,basis,w0,dw,nw
 	
 	if inv==0: #forward transform
 		if ifb==1: #output basis functions
