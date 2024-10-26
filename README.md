@@ -83,3 +83,8 @@ We can further boost the resolution by the following example
 [demos/test_pyntfa_syn1d_2.py](https://github.com/chenyk1990/pyntfa/tree/main/demos/test_pyntfa_syn1d_2.py)
 <img src='https://github.com/chenyk1990/gallery/blob/main/pyntfa/test_pyntfa_syn1d2.png' alt='comp' width=960/>
 
+A comparion between CWT and NTFA
+[demos/test_pyntfa_syn1d_noise.py](https://github.com/chenyk1990/pyntfa/tree/main/demos/test_pyntfa_syn1d_noise.py)
+<img src='https://github.com/chenyk1990/gallery/blob/main/pyntfa/test_pyntfa_syn1d_noise_cwtVSntfa.png' alt='comp' width=960/>
+
+
