@@ -175,9 +175,6 @@ for sigma in [0,0.2,0.4,0.6,0.8]:
     dout,w0,dw,nw=ntfa.ntfa1d(tracen,dt=0.004,niter=10,rect=3,ifb=0,inv=0)
     dout=dout.reshape([n1,nw,2],order='F');
     dtf=dout[:,:,0]*dout[:,:,0]+dout[:,:,1]*dout[:,:,1];
-#    cwtmatr, freqs =spectrum_cwt(ttmp, tracen, wavelet='morl',
-#                 widths=51, cmap='RdBu', colorscale=1, contour_dvision=41,
-#                 freqmax=125, figsize=(12,3), plot=True, ymin=0, ymax=120)
     freqs=np.linspace(0,nw-1,nw)*dw;
     plt.contourf(freqs, t, dtf, levels=51, cmap='RdBu')
     maximum = max(abs(dtf.max()), abs(dtf.min()))
