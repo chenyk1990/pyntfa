@@ -147,6 +147,7 @@ for sigma in [0,0.2,0.4,0.6,0.8]:
     plt.tight_layout()
     plt.title('$\sigma$=%g'%sigma)
     plt.gca().set_yticks([]);
+    plt.gca().invert_yaxis();
     
     i=i+1;
 plt.savefig('test_pyntfa_syn1d_noise_cwtnoise.png')
@@ -186,6 +187,7 @@ for sigma in [0,0.2,0.4,0.6,0.8]:
     plt.tight_layout()
     plt.title('$\sigma$=%g'%sigma)
     plt.gca().set_yticks([]);
+    plt.gca().invert_yaxis();
     
     i=i+1;
 plt.savefig('test_pyntfa_syn1d_noise_ntfanoise.png')
