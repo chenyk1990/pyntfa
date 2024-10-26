@@ -74,8 +74,8 @@ def ntfa1d(din,dt=0.004,niter=100,rect=10,ifb=0,ifn=0,inv=0,verb=1,alpha=0,rect1
 		else:
 			nw=np.int32((dtmp.size-3)/n1/2);
 			dout=dtmp[0:n1*nw*2]
-			w0=dtmp[n1*nw*2]/np.pi*1/dt/2
-			dw=dtmp[n1*nw*2+1]/np.pi*1/dt/2
+			w0=dtmp[n1*nw*2]/np.pi/2
+			dw=dtmp[n1*nw*2+1]/np.pi/2
 			nw2=np.int32(dtmp[n1*nw*2+2])
 			print(dtmp.size,w0,dw,nw2)
 			if nw2 != nw:
