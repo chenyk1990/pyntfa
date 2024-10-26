@@ -101,3 +101,96 @@ plt.colorbar()
 plt.tight_layout()
 plt.savefig('test_pyntfa_syn1d_noise_cwtVSntfa.png')
 plt.show()
+
+
+
+## plot noise
+
+from pyseistr import genflat
+data=genflat();
+trace=data[:,0]
+trace=trace/np.max(np.max(trace));
+n1=data.shape[0]
+dt = 0.004
+t = np.arange(n1)*dt
+ttmp = np.arange(n1)*dt*1000
+
+fig = plt.figure(figsize=(30, 10))
+
+i=1;
+for sigma in [0,0.2,0.4,0.6,0.8]:
+    np.random.seed(2023+i);
+    ax=plt.subplot(1,10,2*i-1)
+    noise=(np.random.rand(n1)*2-1)*sigma;
+    tracen=trace+noise
+    plt.plot(tracen,t);plt.xlabel('Amplitude');
+    if i==1:
+        plt.ylabel('Time (s)');
+    else:
+        plt.gca().set_yticks([]);
+        
+    plt.gca().invert_yaxis();
+    
+    plt.gca().text(-0.15,1.01,['(a)','(b)','(c)','(d)','(e)'][i-1],transform=plt.gca().transAxes,size=16,weight='normal')
+    
+    ax=plt.subplot(1,10,2*i)
+    cwtmatr, freqs =spectrum_cwt(ttmp, tracen, wavelet='morl',
+                 widths=51, cmap='RdBu', colorscale=1, contour_dvision=41,
+                 freqmax=125, figsize=(12,3), plot=True, ymin=0, ymax=120)
+
+    maximum = max(abs(cwtmatr.max()), abs(cwtmatr.min()))
+    cwtmatr_c = np.clip(cwtmatr, -maximum, maximum, cwtmatr)
+    levels = np.linspace(-maximum, maximum, contour_dvision)
+    plt.contourf(freqs, t, cwtmatr_c.transpose(), levels=51, cmap='RdBu')
+    plt.xlim(xmin, xmax)
+    plt.xlabel(u"Frequency (Hz)")
+    plt.tight_layout()
+    plt.title('$\sigma$=%g'%sigma)
+    plt.gca().set_yticks([]);
+    
+    i=i+1;
+plt.savefig('test_pyntfa_syn1d_noise_cwtnoise.png')
+plt.show()
+
+
+## Below is NTFA
+fig = plt.figure(figsize=(30, 10))
+i=1;
+for sigma in [0,0.2,0.4,0.6,0.8]:
+    np.random.seed(2023+i);
+    ax=plt.subplot(1,10,2*i-1)
+    noise=(np.random.rand(n1)*2-1)*sigma;
+    tracen=trace+noise
+    plt.plot(tracen,t);plt.xlabel('Amplitude');
+    if i==1:
+        plt.ylabel('Time (s)');
+    else:
+        plt.gca().set_yticks([]);
+        
+    plt.gca().invert_yaxis();
+    
+    plt.gca().text(-0.15,1.01,['(a)','(b)','(c)','(d)','(e)'][i-1],transform=plt.gca().transAxes,size=16,weight='normal')
+    
+    ax=plt.subplot(1,10,2*i)
+    dout,w0,dw,nw=ntfa.ntfa1d(tracen,dt=0.004,niter=10,rect=3,ifb=0,inv=0)
+    dout=dout.reshape([n1,nw,2],order='F');
+    dtf=dout[:,:,0]*dout[:,:,0]+dout[:,:,1]*dout[:,:,1];
+#    cwtmatr, freqs =spectrum_cwt(ttmp, tracen, wavelet='morl',
+#                 widths=51, cmap='RdBu', colorscale=1, contour_dvision=41,
+#                 freqmax=125, figsize=(12,3), plot=True, ymin=0, ymax=120)
+    freqs=np.linspace(0,nw-1,nw)*dw;
+    plt.contourf(freqs, t, dtf, levels=51, cmap='RdBu')
+    maximum = max(abs(dtf.max()), abs(dtf.min()))
+    dtf_c = np.clip(dtf, -maximum, maximum, dtf)
+    levels = np.linspace(-maximum, maximum, contour_dvision)
+    plt.contourf(freqs, t, dtf_c, levels=51, cmap='RdBu')
+    plt.xlim(xmin, xmax)
+    plt.xlabel(u"Frequency (Hz)")
+    plt.tight_layout()
+    plt.title('$\sigma$=%g'%sigma)
+    plt.gca().set_yticks([]);
+    
+    i=i+1;
+plt.savefig('test_pyntfa_syn1d_noise_ntfanoise.png')
+plt.show()
+

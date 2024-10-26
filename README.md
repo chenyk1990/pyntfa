@@ -88,3 +88,10 @@ A comparion between CWT and NTFA
 <img src='https://github.com/chenyk1990/gallery/blob/main/pyntfa/test_pyntfa_syn1d_noise_cwtVSntfa.png' alt='comp' width=960/>
 
 
+A noise influence test using NTFA
+[demos/test_pyntfa_syn1d_noise.py](https://github.com/chenyk1990/pyntfa/tree/main/demos/test_pyntfa_syn1d_noise.py)
+<img src='https://github.com/chenyk1990/gallery/blob/main/pyntfa/test_pyntfa_syn1d_noise_ntfanoise.png' alt='comp' width=960/>
+
+A noise influence test using CWT (This figure reproduce the Figure 4 in Zhang et al., 2020, Convolutional neural networks for microseismic waveform classification and arrival picking, Geophysics, 85, WA227-WA240.)
+[demos/test_pyntfa_syn1d_noise.py](https://github.com/chenyk1990/pyntfa/tree/main/demos/test_pyntfa_syn1d_noise.py)
+<img src='https://github.com/chenyk1990/gallery/blob/main/pyntfa/test_pyntfa_syn1d_noise_cwtnoise.png' alt='comp' width=960/>
