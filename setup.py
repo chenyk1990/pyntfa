@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- encoding: utf8 -*-
-import glob
-import inspect
+#import glob
+#import inspect
 import io
 import os
 
-from setuptools import find_packages
+#from setuptools import find_packages
 from setuptools import setup
-
+from distutils.core import Extension
+import numpy
 
 long_description = """
 Source code: https://github.com/chenyk1990/pyntfa""".strip() 
@@ -18,7 +19,7 @@ def read(*names, **kwargs):
         os.path.join(os.path.dirname(__file__), *names),
         encoding=kwargs.get("encoding", "utf8")).read()
 
-from distutils.core import Extension
+
 
 ntfac_module = Extension('ntfacfun', sources=['pyntfa/src/main.c',
 											  'pyntfa/src/ntfa_alloc.c',
@@ -29,9 +30,9 @@ ntfac_module = Extension('ntfacfun', sources=['pyntfa/src/main.c',
 											  'pyntfa/src/ntfa_decart.c',
 											  'pyntfa/src/ntfa_triangle.c',
 											  'pyntfa/src/ntfa_ntriangle.c',
-											  'pyntfa/src/ntfa_ntrianglen.c'	])
+											  'pyntfa/src/ntfa_ntrianglen.c'	],
+                                        include_dirs=[numpy.get_include()])
 
-from numpy.distutils.core import setup 
 setup(
     name="pyntfa",
     version="0.0.1.1",
