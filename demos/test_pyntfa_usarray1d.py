@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import pyntfa as ntfa
-from pylib.io import binread
+from pyntfa import binread
 import numpy as np
 
-earth=binread('/Users/chenyk/chenyk.rr/tf/usarray/usarray_trace.bin',n1=5400,n2=1)
+# Download data from https://github.com/aaspip/data/blob/main/usarray_trace.bin
+earth=binread('usarray_trace.bin',n1=5400,n2=1)
 
 dt=1
 
