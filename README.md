@@ -95,3 +95,8 @@ A noise influence test using NTFA
 A noise influence test using CWT (This example reproduces the Figure 4 in Zhang et al., 2020, Convolutional neural networks for microseismic waveform classification and arrival picking, Geophysics, 85, WA227-WA240.)
 [demos/test_pyntfa_syn1d_noise.py](https://github.com/chenyk1990/pyntfa/tree/main/demos/test_pyntfa_syn1d_noise.py)
 <img src='https://github.com/chenyk1990/gallery/blob/main/pyntfa/test_pyntfa_syn1d_noise_cwtnoise.png' alt='comp' width=960/>
+
+The following figure shows an application on one USArray trace (This example reproduces the Figure 5&6 in Chen, 2021, Nonstationary local time-frequency transform, Geophysics, 86(3), V245–V254.)
+[demos/test_pyntfa_usarray1d.py](https://github.com/chenyk1990/pyntfa/tree/main/demos/test_pyntfa_usarray1d.py)
+<img src='https://github.com/chenyk1990/gallery/blob/main/pyntfa/test_pyntfa_usarray1d2.png' alt='comp' width=960/>
+
