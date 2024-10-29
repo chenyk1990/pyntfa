@@ -10,6 +10,8 @@ This package has a variety of applications in both exploration and earthquake se
 
 Chen, Y., 2021, Nonstationary local time-frequency transform, Geophysics, 86(3), V245–V254.
 
+Chen, Y., et al., 2025, Pyntfa: A python package for non-stationary time-frequency analysis, TBD.
+
 BibTeX:
 
 	@article{ntfa,
@@ -24,6 +26,18 @@ BibTeX:
 	  year={2021}
 	}
 
+    @article{pyntfa,
+      title={PYntfa: A python package for non-stationary time-frequency analysis},
+      author={Yangkang Chen and co-authors},
+      journal={TBD},
+      volume={TBD},
+      number={TBD},
+      issue={TBD},
+      pages={TBD},
+      doi={TBD},
+      year={2025}
+    }
+    
 -----------
 ## Copyright
     The pyntfa developing team, 2021-present
