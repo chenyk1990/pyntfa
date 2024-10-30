@@ -50,7 +50,7 @@ BibTeX:
 -----------
 
 ## Install
-Using the latest version
+Using the latest version (Suggested)
 
     git clone https://github.com/chenyk1990/pyntfa
     cd pyntfa
@@ -59,6 +59,9 @@ or using Pypi
 
     pip install pyntfa
 
+or 
+    pip install git+https://github.com/chenyk1990/pyntfa
+    
 -----------
 ## Examples
     The "demo" directory contains all runable scripts to demonstrate different applications of pyntfa. 
