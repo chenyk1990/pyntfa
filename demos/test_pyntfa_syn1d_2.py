@@ -65,7 +65,7 @@ tracen=ntfa.ntfa1d(doutn,dt=1,niter=10,rect=7,ifb=0,inv=1,ifn=1,rect1=rectn0,rec
 
 ## Better visualization
 dt=1;
-t=np.linspace(0,dt,n1*dt)
+t=np.linspace(0,(n1-1)*dt,n1)
 fig = plt.figure(figsize=(16, 8))
 plt.subplot(3,3,1)
 plt.plot(t,din,'k',linewidth=1);plt.ylim(-3,3);plt.gca().set_xticks([]);plt.ylabel('Amplitude');plt.title('Input');
