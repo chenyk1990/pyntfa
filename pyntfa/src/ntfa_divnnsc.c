@@ -232,6 +232,17 @@ void divnn_sc_close (void)
     tf_weight2_close();
 }
 
+void divnn_sc_close2 (void)
+/*< free allocated storage >*/
+{
+    tf_ntrianglen_close();
+    
+    tf_conjgrad_close();
+    free (p);
+    tf_weight2_close();
+}
+
+
 void divnn_sc (float* num  /* numerator */, 
 		   float* rat  /* ratio */, 
 		   int niter   /* number of iterations */)

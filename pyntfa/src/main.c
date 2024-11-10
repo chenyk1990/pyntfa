@@ -312,6 +312,8 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
 	(*((float*)PyArray_GETPTR1(vecout,2+ndata*nw*2))) = nw;
 	}
 	
+	free(kbsc);free(sscc);free(trace);free(rect);
+	divnn_sc_close();
 	
 	}else{
 	
@@ -321,6 +323,8 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
 	vecout=(PyArrayObject *) PyArray_SimpleNew(1,dims,NPY_FLOAT);
 	for(i=0;i<dims[0];i++)
 		(*((float*)PyArray_GETPTR1(vecout,i))) = trace[i];
+	
+	free(trace);
 	}
 	
 	return PyArray_Return(vecout);
@@ -604,6 +608,9 @@ static PyObject *ntf1d(PyObject *self, PyObject *args){
 	(*((float*)PyArray_GETPTR1(vecout,2+ndata*nw*2))) = nw;
 	}
 	
+	free(kbsc);free(sscc);free(trace);free(rect);
+	
+	divnn_sc_close2();
 	
 	}else{
 	
@@ -613,9 +620,15 @@ static PyObject *ntf1d(PyObject *self, PyObject *args){
 	vecout=(PyArrayObject *) PyArray_SimpleNew(1,dims,NPY_FLOAT);
 	for(i=0;i<dims[0];i++)
 		(*((float*)PyArray_GETPTR1(vecout,i))) = trace[i];
+		
+	free(trace);
 	}
+
+	
 	
 	return PyArray_Return(vecout);
+
+
 	
 }
 

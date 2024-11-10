@@ -44,6 +44,8 @@ void divnn_sc_init2(int nw       /* number of components */, \
 void divnn_sc_close (void);
 /*< free allocated storage >*/
 
+void divnn_sc_close2 (void);
+/*< free allocated storage >*/
 
 void divnn_sc (float* num  /* numerator */, 
 		   float* rat  /* ratio */, 
