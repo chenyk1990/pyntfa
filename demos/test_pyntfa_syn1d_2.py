@@ -69,35 +69,51 @@ t=np.linspace(0,(n1-1)*dt,n1)
 fig = plt.figure(figsize=(16, 8))
 plt.subplot(3,3,1)
 plt.plot(t,din,'k',linewidth=1);plt.ylim(-3,3);plt.gca().set_xticks([]);plt.ylabel('Amplitude');plt.title('Input');
+plt.gca().text(-0.15,1,'(a)',transform=plt.gca().transAxes,size=20,weight='normal')
 plt.subplot(3,3,4)
 plt.plot(t,trace,'k',linewidth=1);plt.ylim(-3,3);plt.gca().set_xticks([]);plt.ylabel('Amplitude');plt.title('Reconstruction');
+plt.gca().text(-0.15,1,'(b)',transform=plt.gca().transAxes,size=20,weight='normal')
+
 plt.subplot(3,3,7)
 plt.plot(t,din.flatten()-trace,'k',linewidth=1);plt.ylim(-3,3);plt.ylabel('Amplitude');plt.xlabel('Time (s)');plt.title('Reconstruction Error');
+plt.gca().text(-0.15,1,'(c)',transform=plt.gca().transAxes,size=20,weight='normal')
+
 
 plt.subplot(1,3,2)
 plt.imshow(dout[:,:,0]*dout[:,:,0]+dout[:,:,1]*dout[:,:,1],clim=(0, 0.001),cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,n1*1-1,0],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)');plt.title('Time-frequency Spectrum')
+plt.gca().text(-0.15,1,'(d)',transform=plt.gca().transAxes,size=20,weight='normal')
 
 plt.subplot(1,3,3)
 plt.imshow(basis[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,n1*1-1,0],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)');plt.title('Basis function (Real)')
+plt.gca().text(-0.15,1,'(e)',transform=plt.gca().transAxes,size=20,weight='normal')
 
 plt.savefig('test_pyntfa_syn1d1.png',format='png',dpi=300)
+plt.savefig('test_pyntfa_syn1d1.pdf',format='pdf',dpi=300)
 plt.show();
 
 fig = plt.figure(figsize=(16, 8))
 plt.subplot(3,3,1)
 plt.plot(t,din,'k',linewidth=1);plt.ylim(-3,3);plt.gca().set_xticks([]);plt.ylabel('Amplitude');plt.title('Input');
+plt.gca().text(-0.15,1,'(a)',transform=plt.gca().transAxes,size=20,weight='normal')
+
 plt.subplot(3,3,4)
 plt.plot(t,tracen,'k',linewidth=1);plt.ylim(-3,3);plt.gca().set_xticks([]);plt.ylabel('Amplitude');plt.title('Reconstruction');
+plt.gca().text(-0.15,1,'(b)',transform=plt.gca().transAxes,size=20,weight='normal')
+
 plt.subplot(3,3,7)
 plt.plot(t,din.flatten()-tracen,'k',linewidth=1);plt.ylim(-3,3);plt.ylabel('Amplitude');plt.xlabel('Time (s)');plt.title('Reconstruction Error');
+plt.gca().text(-0.15,1,'(c)',transform=plt.gca().transAxes,size=20,weight='normal')
 
 plt.subplot(1,3,2)
 plt.imshow(doutn[:,:,0]*doutn[:,:,0]+doutn[:,:,1]*doutn[:,:,1],clim=(0, 0.001),cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,n1*1-1,0],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)');plt.title('Time-frequency Spectrum')
+plt.gca().text(-0.15,1,'(d)',transform=plt.gca().transAxes,size=20,weight='normal')
 
 plt.subplot(1,3,3)
 plt.imshow(basisn[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,n1*1-1,0],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)');plt.title('Basis function (Real)')
+plt.gca().text(-0.15,1,'(e)',transform=plt.gca().transAxes,size=20,weight='normal')
 
 plt.savefig('test_pyntfa_syn1d2.png',format='png',dpi=300)
+plt.savefig('test_pyntfa_syn1d2.pdf',format='pdf',dpi=300)
 plt.show();
 
 
