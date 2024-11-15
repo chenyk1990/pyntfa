@@ -31,7 +31,7 @@ int kiss_fft_next_fast_size(int n)
 static PyObject *ntft(PyObject *self, PyObject *args){
     
 	/**initialize data input**/
-    int nd, nd2;
+    int nd;
     
     PyObject *f1=NULL;
     PyObject *arrf1=NULL;
@@ -44,8 +44,6 @@ static PyObject *ntft(PyObject *self, PyObject *args){
 	PyArg_ParseTuple(args, "Oif", &f1, &ndata, &fpar);
 
     arrf1 = PyArray_FROM_OTF(f1, NPY_FLOAT, NPY_IN_ARRAY);
-    
-    nd2=PyArray_NDIM(arrf1);
     
     npy_intp *sp=PyArray_SHAPE(arrf1);
 
@@ -84,7 +82,7 @@ static PyObject *ntft(PyObject *self, PyObject *args){
 static PyObject *tf1d(PyObject *self, PyObject *args){
     
 	/**initialize data input**/
-    int nd, nd2;
+    int nd;
     
     PyObject *f1=NULL;
     PyObject *arrf1=NULL;
@@ -102,7 +100,7 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
 	ndata=n1;
 
 
-    int i1, iw, nt, nw, i2, n2, n12, n1w;
+    int i1, iw, nt, nw, i2, n2=1, n12, n1w;
     int m[SF_MAX_DIM], *rect;
     float t, d1, w, w0, dw, mean=0.0f;
     float *trace, *kbsc, *mkbsc, *sscc, *mm, *ww;
@@ -222,9 +220,6 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
 	if(!inv)
 	{
     arrf1 = PyArray_FROM_OTF(f1, NPY_FLOAT, NPY_IN_ARRAY);
-    
-    nd2=PyArray_NDIM(arrf1);
-    
     npy_intp *sp=PyArray_SHAPE(arrf1);
 
 	data  = (float*)malloc(ndata * sizeof(float));
@@ -256,9 +251,6 @@ static PyObject *tf1d(PyObject *self, PyObject *args){
 	/*This part is to reconstruct the data given the basis functions and their weights (i.e., TF spectrum)*/
 	
     arrf1 = PyArray_FROM_OTF(f1, NPY_FLOAT, NPY_IN_ARRAY);
-    
-    nd2=PyArray_NDIM(arrf1);
-    
     npy_intp *sp=PyArray_SHAPE(arrf1);
     	
     for (i=0; i<n1w*2; i++)
@@ -356,13 +348,13 @@ static PyObject *ntf1d(PyObject *self, PyObject *args){
 	ndata=n1;
 
 
-    int i1, iw, nt, nw, i2, n2, n12, n1w;
+    int i1, iw, nt, nw, i2, n2=1, n12, n1w;
     int m[SF_MAX_DIM], *rect;
     float t, d1, w, w0, dw, mean=0.0f;
     float *trace, *kbsc, *mkbsc, *sscc, *mm, *ww;
     int box[SF_MAX_DIM];
     
-    d1=dt;
+    	d1=dt;
 	    nt = 2*kiss_fft_next_fast_size((n1+1)/2);
 	    nw = nt/2+1;
 	    dw = 1./(nt*d1);
@@ -383,18 +375,20 @@ static PyObject *ntf1d(PyObject *self, PyObject *args){
 	printf("niter=%d,n1=%d,nw=%d,nt=%d,n12=%d,rect0=%d\n",niter,n1,nw,nt,n12,rect0);
 	printf("dw=%g,w0=%g,alpha=%g,dt=%g\n",dw,w0,alpha,dt);
 
-
     float *rct[2]; /* storing non-stationary smoothing radii */
     
 	rct[0] = tf_floatalloc (n1*nw*2);
 	rct[1] = tf_floatalloc (n1*nw*2);
 	
-    int  *sft[2];	/* storing non-stationary shifting size */
-	sft[0] = tf_intalloc (n1*nw*2);
-	sft[1] = tf_intalloc (n1*nw*2);
+    float  *sft[2];	/* storing non-stationary shifting size */
+	sft[0] = tf_floatalloc (n1*nw*2);
+	sft[1] = tf_floatalloc (n1*nw*2);
 
     trace = tf_floatalloc(n1);
     kbsc    = tf_floatalloc(n12); /*kbsc is the basis functions*/
+
+	for(i=0;i<n1;i++) trace[i]=0;
+	for(i=0;i<n12;i++) kbsc[i]=0;
 
     rect = tf_intalloc(2*nw);
     for (iw=0; iw < nw; iw++) {
@@ -516,10 +510,6 @@ static PyObject *ntf1d(PyObject *self, PyObject *args){
 	if(!inv)
 	{
     arrf1 = PyArray_FROM_OTF(f1, NPY_FLOAT, NPY_IN_ARRAY);
-
-    
-    nd2=PyArray_NDIM(arrf1);
-    
     npy_intp *sp=PyArray_SHAPE(arrf1);
 
 	data  = (float*)malloc(ndata * sizeof(float));
@@ -552,9 +542,6 @@ static PyObject *ntf1d(PyObject *self, PyObject *args){
 	/*This part is to reconstruct the data given the basis functions and their weights (i.e., TF spectrum)*/
 	
     arrf1 = PyArray_FROM_OTF(f1, NPY_FLOAT, NPY_IN_ARRAY);
-    
-    nd2=PyArray_NDIM(arrf1);
-    
     npy_intp *sp=PyArray_SHAPE(arrf1);
     	
     for (i=0; i<n1w*2; i++)
@@ -607,9 +594,10 @@ static PyObject *ntf1d(PyObject *self, PyObject *args){
 	(*((float*)PyArray_GETPTR1(vecout,1+ndata*nw*2))) = dw;
 	(*((float*)PyArray_GETPTR1(vecout,2+ndata*nw*2))) = nw;
 	}
-	
+
+	free(rct[0]);free(rct[1]);
+	free(sft[0]);free(sft[1]);
 	free(kbsc);free(sscc);free(trace);free(rect);
-	
 	divnn_sc_close2();
 	
 	}else{
@@ -628,8 +616,6 @@ static PyObject *ntf1d(PyObject *self, PyObject *args){
 	
 	return PyArray_Return(vecout);
 
-
-	
 }
 
 /*documentation for each functions.*/

@@ -17,7 +17,7 @@ void tf_ntrianglen_init (int ndim    /* number of dimensions */,
 		      int *nbox   /* triangle radius [ndim] */, 
 		      int *ndat   /* data dimensions [ndim] */,
 		      float **len /* triangle lengths [ndim][nd] */,
-                      float **sft /* triangle shifts [ndim][nd] */,
+              float **sft /* triangle shifts [ndim][nd] */,
 		      int repeat  /* repeated smoothing */)
 /*< initialize >*/
 {

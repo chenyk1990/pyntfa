@@ -203,7 +203,7 @@ void divnn_sc_init2(int nw       /* number of components */, \
 		     int *ndat    /* data dimensions [ndim] */, 
 		     int *nbox    /* smoothing radius [nw] */,
 		  	 float **rct /* triangle lengths [ndim][nd] */,
-          	 int **sft /* triangle shifts [ndim][nd] */,
+          	 float **sft /* triangle shifts [ndim][nd] */,
 		     float* den   /* denominator [nw*nd] */,
 		     bool verb    /* verbosity flag */)
 /*< initialize >*/
@@ -216,7 +216,6 @@ void divnn_sc_init2(int nw       /* number of components */, \
 
 	/*initialization for the non-stationary triangle smoothing operator*/
     tf_ntrianglen_init(ndim,nbox,ndat,rct,sft,1);
-    
     tf_conjgrad_init(n2, n2, n, n, 1., 1.e-6, verb, false);
     p = tf_floatalloc (n2);
     tf_weight2_init(nw,n,den);
@@ -226,7 +225,6 @@ void divnn_sc_close (void)
 /*< free allocated storage >*/
 {
     ntriangle2_close();
-    
     tf_conjgrad_close();
     free (p);
     tf_weight2_close();
@@ -236,7 +234,6 @@ void divnn_sc_close2 (void)
 /*< free allocated storage >*/
 {
     tf_ntrianglen_close();
-    
     tf_conjgrad_close();
     free (p);
     tf_weight2_close();

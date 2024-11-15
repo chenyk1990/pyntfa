@@ -15,7 +15,7 @@ def tf(din):
 	
 	return dout
 	
-def ntfa1d(din,dt=0.004,niter=100,rect=10,ifb=0,ifn=0,inv=0,verb=1,alpha=0,rect1=None,rect2=None):
+def ntfa1d(din,dt=0.004,niter=100,rect=10,ifb=0,ifn=0,inv=0,verb=0,alpha=0,rect1=None,rect2=None):
 	"""
 	Non-stationary time-frequency transform on 1D trace
 	

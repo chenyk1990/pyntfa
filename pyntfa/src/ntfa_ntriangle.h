@@ -35,17 +35,17 @@ struct tf_Ntriangle {
     int np, nb, nx;
 };
 
-static void fold (int o, int d, int nx, int nb, int np, 
-		  const float *x, float* tmp);
-static void fold2 (int o, int d, int nx, int nb, int np, 
-		   float *x, const float* tmp);
-static void doubint (int nx, float *x, bool der);
-static void triple (int o, int d, int nx, int nb, 
-		    const float* t, const float* s, float* x, const float* tmp);
-static void triple2 (int o, int d, int nx, int nb, 
-		     const float* t, const float* s, const float* x, float* tmp);
-static void double1 (int o, int d, int nx, int nb, 
-        const float* t, const float* s, float* x, const float* tmp);
+// static void fold (int o, int d, int nx, int nb, int np, 
+// 		  const float *x, float* tmp);
+// static void fold2 (int o, int d, int nx, int nb, int np, 
+// 		   float *x, const float* tmp);
+// static void doubint (int nx, float *x, bool der);
+// static void triple (int o, int d, int nx, int nb, 
+// 		    const float* t, const float* s, float* x, const float* tmp);
+// static void triple2 (int o, int d, int nx, int nb, 
+// 		     const float* t, const float* s, const float* x, float* tmp);
+// static void double1 (int o, int d, int nx, int nb, 
+//         const float* t, const float* s, float* x, const float* tmp);
 
 tf_ntriangle tf_ntriangle_init (int nbox /* maximum triangle length */, 
 			     int ndat /* data length */);
