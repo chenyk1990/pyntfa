@@ -111,6 +111,8 @@ t=np.linspace(0,(n1-1)*dt,n1)
 fig = plt.figure(figsize=(16, 8))
 plt.subplot(3,3,1)
 plt.plot(t,earth,'k',linewidth=1);plt.ylim(-0.2,0.2);plt.gca().set_xticks([]);plt.ylabel('Amplitude');plt.title('Input');
+plt.gca().text(-0.18,1,'(a)',transform=plt.gca().transAxes,size=18,weight='normal')
+
 #adding labels
 ymin, ymax = plt.gca().get_ylim()
 for ii in range(len(times)):
@@ -119,6 +121,8 @@ for ii in range(len(times)):
     
 plt.subplot(3,3,4)
 plt.plot(t,earthn,'k',linewidth=1);plt.ylim(-0.2,0.2);plt.gca().set_xticks([]);plt.ylabel('Amplitude');plt.title('Reconstruction');
+plt.gca().text(-0.18,1,'(b)',transform=plt.gca().transAxes,size=18,weight='normal')
+
 #adding labels
 ymin, ymax = plt.gca().get_ylim()
 for ii in range(len(times)):
@@ -127,17 +131,21 @@ for ii in range(len(times)):
     
 plt.subplot(3,3,7)
 plt.plot(t,earth.flatten()-earthn,'k',linewidth=1);plt.ylim(-0.2,0.2);plt.ylabel('Amplitude');plt.xlabel('Time (s)');plt.title('Reconstruction Error');
+plt.gca().text(-0.18,1,'(c)',transform=plt.gca().transAxes,size=18,weight='normal')
+
 
 plt.subplot(1,3,2)
 plt.imshow(dtfn,clim=(0, 0.00000001),cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,n1*1-1,0],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)');plt.title('Time-frequency Spectrum')
+plt.gca().text(-0.18,1,'(d)',transform=plt.gca().transAxes,size=18,weight='normal')
 #adding labels
 xmin, xmax = plt.gca().get_xlim()
 for ii in range(len(times)):
     plt.plot([xmin,xmax],[times[ii],times[ii]],'w--',linewidth=1);
     plt.text(xmax-(xmax-xmin)*0.2,times[ii],phases[ii],color='w')
-    
+
 plt.subplot(1,3,3)
 plt.imshow(basis[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,n1*1-1,0],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)');plt.title('Basis function (Real)')
+plt.gca().text(-0.18,1,'(e)',transform=plt.gca().transAxes,size=18,weight='normal')
 
 plt.savefig('test_pyntfa_usarray1d2.png',format='png',dpi=300)
 plt.show();
