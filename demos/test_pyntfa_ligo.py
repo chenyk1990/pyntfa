@@ -35,7 +35,7 @@ plt.plot(t,din.flatten()-trace,'k',linewidth=1);plt.ylim(-4,4);plt.ylabel('Ampli
 
 plt.subplot(1,2,2)#clim=(0, 10)
 plt.imshow(dout[:,:,0]*dout[:,:,0]+dout[:,:,1]*dout[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,(n1-1)*dt+ot,ot],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)');plt.title('Time-frequency Spectrum (STFT)')
-plt.savefig('test_pyntfa_syn1d_stltft_stft_ligo.png',format='png',dpi=300)
+plt.savefig('test_pyntfa_stltft_stft_ligo.png',format='png',dpi=300)
 plt.show();
 
 
@@ -58,7 +58,7 @@ plt.plot(t,din.flatten()-trace,'k',linewidth=1);plt.ylim(-4,4);plt.ylabel('Ampli
 
 plt.subplot(1,2,2)#clim=(0, 10)
 plt.imshow(dout[:,:,0]*dout[:,:,0]+dout[:,:,1]*dout[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,(n1-1)*dt+ot,ot],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)');plt.title('Time-frequency Spectrum (ST)')
-plt.savefig('test_pyntfa_syn1d_stltft_st_ligo.png',format='png',dpi=300)
+plt.savefig('test_pyntfa_stltft_st_ligo.png',format='png',dpi=300)
 plt.show();
 
 
@@ -82,7 +82,7 @@ plt.plot(t,din.flatten()-trace,'k',linewidth=1);plt.ylim(-4,4);plt.ylabel('Ampli
 
 plt.subplot(1,2,2)#clim=(0, 10)
 plt.imshow(dout[:,:,0]*dout[:,:,0]+dout[:,:,1]*dout[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,(n1-1)*dt+ot,ot],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)');plt.title('Time-frequency Spectrum (NTFA)')
-plt.savefig('test_pyntfa_syn1d_stltft_ntfa_ligo.png',format='png',dpi=300)
+plt.savefig('test_pyntfa_ligo_1.png',format='png',dpi=300)
 plt.show();
 
 
@@ -129,7 +129,46 @@ plt.plot(t,din.flatten()-tracen,'k',linewidth=1);plt.ylim(-4,4);plt.ylabel('Ampl
 
 plt.subplot(1,2,2)#clim=(0, 10)
 plt.imshow(doutn[:,:,0]*doutn[:,:,0]+doutn[:,:,1]*doutn[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,(n1-1)*dt+ot,ot],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)');plt.title('Time-frequency Spectrum (NTFA)')
-plt.savefig('test_pyntfa_syn1d_stltft_ntfa2_ligo.png',format='png',dpi=300)
+plt.savefig('test_pyntfa_ligo_2.png',format='png',dpi=300)
+plt.show();
+
+
+fig = plt.figure(figsize=(20, 8))
+plt.subplot(3,3,1)
+plt.plot(t,din,'k',linewidth=1);plt.ylim(-4,4);plt.gca().set_xticks([]);plt.ylabel('Amplitude');plt.title('Input');
+plt.gca().text(-0.15,1,'(a)',transform=plt.gca().transAxes,size=16,weight='normal')
+
+plt.subplot(3,3,4)
+plt.plot(t,tracen,'k',linewidth=1);plt.ylim(-4,4);plt.gca().set_xticks([]);plt.ylabel('Amplitude');plt.title('Reconstruction');
+plt.gca().text(-0.15,1,'(b)',transform=plt.gca().transAxes,size=16,weight='normal')
+
+plt.subplot(3,3,7)
+plt.plot(t,din.flatten()-tracen,'k',linewidth=1);plt.ylim(-4,4);plt.ylabel('Amplitude');plt.xlabel('Time (s)');plt.title('Reconstruction Error');
+plt.gca().text(-0.15,1,'(c)',transform=plt.gca().transAxes,size=16,weight='normal')
+
+plt.subplot(1,5,3)#clim=(0, 10)
+plt.imshow(dout[:,:,0]*dout[:,:,0]+dout[:,:,1]*dout[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,(n1-1)*dt+ot,ot],aspect='auto');plt.xlabel('Frequency (Hz)');plt.ylabel('Time (s)',fontsize=10);
+plt.title('Time-frequency Spectrum (NTFA)',fontsize=10)
+plt.gca().set_xlim(xmin=0,xmax=500);
+plt.gca().text(-0.15,1,'(d)',transform=plt.gca().transAxes,size=16,weight='normal')
+
+plt.subplot(1,5,4)#clim=(0, 10)
+doutstft,w0,dw,nw=stft1d(din,dt=dt,inv=0,opt=1,sym=0,ntw=101,ot=0,wind=0,verb=1)
+doutstft=doutstft.reshape([n1,nw,2],order='F');
+plt.imshow(doutstft[:,:,0]*doutstft[:,:,0]+doutstft[:,:,1]*doutstft[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,(n1-1)*dt+ot,ot],aspect='auto');plt.xlabel('Frequency (Hz)');#plt.ylabel('Time (s)');
+plt.title('Time-frequency Spectrum (STFT)',fontsize=10)
+plt.gca().set_xlim(xmin=0,xmax=500);
+plt.gca().text(-0.15,1,'(e)',transform=plt.gca().transAxes,size=16,weight='normal')
+
+plt.subplot(1,5,5)#clim=(0, 10)
+doutS,w0,dw,nw=st1d(din,dt=dt,inv=0,flo=0,fhi=0.5,verb=1)
+doutS=doutS.reshape([n1,nw,2],order='F');
+plt.imshow(doutS[:,:,0]*doutS[:,:,0]+doutS[:,:,1]*doutS[:,:,1],cmap=plt.cm.jet, interpolation='none', extent=[0,nw*dw-dw,(n1-1)*dt+ot,ot],aspect='auto');plt.xlabel('Frequency (Hz)');#plt.ylabel('Time (s)');
+plt.title('Time-frequency Spectrum (ST)',fontsize=10)
+plt.gca().set_xlim(xmin=0,xmax=500);
+plt.gca().text(-0.15,1,'(f)',transform=plt.gca().transAxes,size=16,weight='normal')
+
+plt.savefig('test_pyntfa_ligo_3.png',format='png',dpi=300)
 plt.show();
 
 
