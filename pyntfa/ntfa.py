@@ -63,8 +63,8 @@ def ntfa1d(din,dt=0.004,niter=100,rect=10,ifb=0,ifn=0,inv=0,verb=0,alpha=0,rect1
 			nw=np.int32((dtmp.size-3)/n1/4);
 			dout=dtmp[0:n1*nw*2]
 			basis=dtmp[n1*nw*2:n1*nw*4]
-			w0=dtmp[n1*nw*4]/np.pi*1/dt/2
-			dw=dtmp[n1*nw*4+1]/np.pi*1/dt/2
+			w0=dtmp[n1*nw*4]/np.pi/2
+			dw=dtmp[n1*nw*4+1]/np.pi/2
 			nw2=np.int32(dtmp[n1*nw*4+2])
 			if nw2 != nw:
 				print('nw=',nw,'nw2=',nw2,'dimension discrepancy')

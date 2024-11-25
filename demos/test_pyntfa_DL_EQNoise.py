@@ -161,15 +161,17 @@ datas=data[0:nsample*2]
 # dds=[]
 n1=6000
 nf=10
+
+## uncomment the following to re-generate the spectra (and comment "datanew=np.load('./datanew%d.npy'%(nsample*2))")
 # for ii in range(np.shape(datas)[0]):
 #     print(ii,np.shape(datas)[0])
-#     dtmp,basis,w0,dw,nw = ntfa.ntfa1d(datas[ii,:,0],dt=1,niter=10,rect=20,ifb=1,inv=0)
+#     dtmp,basis,w0,dw,nw = ntfa.ntfa1d(datas[ii,:,0],dt=0.01,niter=10,rect=20,ifb=1,inv=0)
 #     dtmp=dtmp.reshape([n1,nw,2],order='F');dtf0=dtmp[:,:,0]*dtmp[:,:,0]+dtmp[:,:,1]*dtmp[:,:,1];
     
-#     dtmp,basis,w0,dw,nw = ntfa.ntfa1d(datas[ii,:,1],dt=1,niter=10,rect=20,ifb=1,inv=0)
+#     dtmp,basis,w0,dw,nw = ntfa.ntfa1d(datas[ii,:,1],dt=0.01,niter=10,rect=20,ifb=1,inv=0)
 #     dtmp=dtmp.reshape([n1,nw,2],order='F');dtf1=dtmp[:,:,0]*dtmp[:,:,0]+dtmp[:,:,1]*dtmp[:,:,1];
     
-#     dtmp,basis,w0,dw,nw = ntfa.ntfa1d(datas[ii,:,2],dt=1,niter=10,rect=20,ifb=1,inv=0)
+#     dtmp,basis,w0,dw,nw = ntfa.ntfa1d(datas[ii,:,2],dt=0.01,niter=10,rect=20,ifb=1,inv=0)
 #     dtmp=dtmp.reshape([n1,nw,2],order='F');dtf2=dtmp[:,:,0]*dtmp[:,:,0]+dtmp[:,:,1]*dtmp[:,:,1];
     
 #     nf=10
@@ -183,6 +185,8 @@ nf=10
 # datanew=np.concatenate(dds,axis=0)
 
 
+dt=0.01;freqs=np.linspace(w0,dw*(nw-1),nw);
+print('Selected freqs for each comp:',freqs[np.linspace(100,300,nf,dtype='int')])
 
 # In[10]:
 
